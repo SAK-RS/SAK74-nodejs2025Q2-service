@@ -1,13 +1,12 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import 'dotenv/config';
 import { styleText } from 'node:util';
 import { SwaggerModule } from '@nestjs/swagger';
 import { resolve } from 'node:path';
 import { parse } from 'yaml';
 import { readFileSync } from 'node:fs';
-
-const PORT = process.env.PORT;
+import { ConfigService } from '@nestjs/config';
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -21,7 +20,9 @@ async function bootstrap() {
     },
     {},
   );
-  await app.listen(PORT);
-  console.log(styleText('yellowBright', `Server started on port ${PORT}`));
+  app.useGlobalPipes(new ValidationPipe());
+  const port = app.get(ConfigService).get<number>('PORT');
+  await app.listen(port);
+  console.log(styleText('yellowBright', `Server started on port ${port}`));
 }
 bootstrap();
