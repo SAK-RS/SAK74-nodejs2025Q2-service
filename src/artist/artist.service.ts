@@ -1,26 +1,45 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateArtistDto } from './dto/create-artist.dto';
 import { UpdateArtistDto } from './dto/update-artist.dto';
+import { ArtistDb } from 'src/db/artist.entities';
+import { NotFoundError } from 'src/user/helpers/custom.errors';
 
 @Injectable()
 export class ArtistService {
+  constructor(private artists: ArtistDb) {}
   create(createArtistDto: CreateArtistDto) {
-    return 'This action adds a new artist';
+    return this.artists.create(createArtistDto);
   }
 
   findAll() {
-    return `This action returns all artist`;
+    return this.artists.findAll();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} artist`;
+  findOne(id: string) {
+    try {
+      return this.artists.findOne(id);
+    } catch {
+      throw new NotFoundException();
+    }
   }
 
-  update(id: number, updateArtistDto: UpdateArtistDto) {
-    return `This action updates a #${id} artist`;
+  update(id: string, newArtist: UpdateArtistDto) {
+    try {
+      return this.artists.update(id, newArtist);
+    } catch (err) {
+      if (err instanceof NotFoundError) {
+        throw new NotFoundException();
+      }
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} artist`;
+  remove(id: string) {
+    try {
+      this.artists.remove(id);
+    } catch (err) {
+      if (err instanceof NotFoundError) {
+        throw new NotFoundException();
+      }
+    }
   }
 }

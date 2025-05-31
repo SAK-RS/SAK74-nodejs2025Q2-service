@@ -3,3 +3,5 @@ export interface Artist {
   name: string;
   grammy: boolean;
 }
+
+export type ArtistWithoutId = Omit<Artist, 'id'>;
