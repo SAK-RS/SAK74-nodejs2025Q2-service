@@ -14,4 +14,5 @@ export type FavoriteResponse = {
   >;
 };
 
-export type MemberType = keyof Favorites extends `${infer R}s` ? R : null;
+type Singular<T> = T extends `${infer R}s` ? R : T;
+export type MemberType = Singular<keyof Favorites>;

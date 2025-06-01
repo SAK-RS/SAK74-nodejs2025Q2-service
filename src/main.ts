@@ -1,18 +1,22 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { styleText } from 'node:util';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import {
+  // DocumentBuilder,
+  SwaggerModule,
+} from '@nestjs/swagger';
+
 import { resolve } from 'node:path';
 import { parse } from 'yaml';
 import { readFileSync } from 'node:fs';
 import { ConfigService } from '@nestjs/config';
 import { ValidationPipe } from '@nestjs/common';
 
-const swaggerConfig = new DocumentBuilder()
-  .setTitle('Home Library Service')
-  .setDescription('Home music library service')
-  .setVersion('1.0.0')
-  .build();
+// const swaggerConfig = new DocumentBuilder()
+//   .setTitle('Home Library Service')
+//   .setDescription('Home music library service')
+//   .setVersion('1.0.0')
+//   .build();
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);

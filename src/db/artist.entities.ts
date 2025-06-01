@@ -14,7 +14,6 @@ export class ArtistDb {
 
   create(artist: CreateArtistDto): Artist {
     const id = randomUUID();
-    const timestamp = Date.now();
     this.artists.set(id, artist);
     return { ...artist, id };
   }

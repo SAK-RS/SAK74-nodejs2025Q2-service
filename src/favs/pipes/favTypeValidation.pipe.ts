@@ -1,5 +1,4 @@
 import {
-  ArgumentMetadata,
   HttpException,
   HttpStatus,
   Injectable,
@@ -12,8 +11,6 @@ const types: MemberType[] = ['album', 'artist', 'track'];
 @Injectable()
 export class FavTypeValidationPipe implements PipeTransform {
   transform(value: any) {
-    console.log('In pipe: ', value);
-
     if (!types.includes(value)) {
       throw new HttpException(
         `Wrong path ${value}, should be /artist/, /album/ or /track/`,
