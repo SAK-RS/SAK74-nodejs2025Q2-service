@@ -32,7 +32,7 @@ async function bootstrap() {
     {},
   );
   app.useGlobalPipes(new ValidationPipe());
-  const port = app.get(ConfigService).get<number>('PORT');
+  const port = app.get(ConfigService).get<number>('PORT') || 4000;
   await app.listen(port);
   console.log(styleText('yellowBright', `Server started on port ${port}`));
 }

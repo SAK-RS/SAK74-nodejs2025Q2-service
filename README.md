@@ -1,72 +1,96 @@
 # Home Library Service
 
+This repository contains a NestJS application for managing users, artists, albums, tracks, and favorites.
+
 ## Prerequisites
 
-- Git - [Download & Install Git](https://git-scm.com/downloads).
-- Node.js - [Download & Install Node.js](https://nodejs.org/en/download/) and the npm package manager.
+- Node.js (version >= 22.14.0)
+- npm (or Yarn)
 
-## Downloading
+## Installation
 
-```
-git clone {repository URL}
-```
+1. **Clone the repository:**
 
-## Installing NPM modules
+   ```sh
+   git clone <repository-url>
+   cd SAK74-nodejs2025Q2-service
+   ```
 
-```
-npm install
-```
+2. Install dependencies:
 
-## Running application
+   ```sh
+   npm install
+   ```
 
-```
-npm start
-```
+3. Configure Environment Variables: Create a .env file by copying the provided example:
+   ```sh
+   cp .env.example .env
+   ```
+   Adjust _PORT_ value (default is 4000).
 
-After starting the app on port (4000 as default) you can open
-in your browser OpenAPI documentation by typing http://localhost:4000/doc/.
-For more information about OpenAPI/Swagger please visit https://swagger.io/.
+## Running the Application
 
-## Testing
+#### Development Mode
 
-After application running open new terminal and enter:
+Run the application with live reloading:
 
-To run all tests without authorization
-
-```
-npm run test
-```
-
-To run only one of all test suites
-
-```
-npm run test -- <path to suite>
+```sh
+npm run start:dev
 ```
 
-To run all test with authorization
+#### Production Mode
 
-```
-npm run test:auth
-```
+1. Build the project:
 
-To run only specific test suite with authorization
-
-```
-npm run test:auth -- <path to suite>
+```sh
+npm run build
 ```
 
-### Auto-fix and format
+2. Start the application:
 
-```
-npm run lint
-```
-
-```
-npm run format
+```sh
+npm run start:prod
 ```
 
-### Debugging in VSCode
+### Testing
 
-Press <kbd>F5</kbd> to debug.
+Run All Tests
 
-For more information, visit: https://code.visualstudio.com/docs/editor/debugging
+```sh
+npm test
+```
+
+\* **App should be launched before !**
+
+### API Documentation
+
+This application uses Swagger for API documentation. Once the application is running, access the docs at:
+
+```sh
+http://localhost:<PORT>/docs
+```
+
+### Usage
+
+- **Users**: Endpoints under `/user` to create, retrieve, update, and delete users.
+- **Artists**: Endpoints under `/artist` to manage artist information.
+- **Albums**: Endpoints under `/album` for album creation and management.
+- **Tracks**: Endpoints under `/track` to manage tracks.
+- **Favorites**: Endpoints under `/favs` to add or remove favorite items.
+
+_For detailed request/response formats, refer to the Swagger documentation._
+
+### Linting and Formatting
+
+- Lint the project:
+  ```sh
+  npm run lint
+  ```
+- Format the project:
+  ```sh
+  npm run format
+  ```
+- Run both formatting and linting:
+  ```sh
+  npm run format:lint
+  ```
