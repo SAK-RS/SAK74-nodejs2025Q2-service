@@ -1,26 +1,45 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateTrackDto } from './dto/create-track.dto';
 import { UpdateTrackDto } from './dto/update-track.dto';
+import { TrackDb } from 'src/db/track.entities';
+import { NotFoundError } from 'src/user/helpers/custom.errors';
 
 @Injectable()
 export class TrackService {
+  constructor(private tracks: TrackDb) {}
   create(createTrackDto: CreateTrackDto) {
-    return 'This action adds a new track';
+    return this.tracks.create(createTrackDto);
   }
 
   findAll() {
-    return `This action returns all track`;
+    return this.tracks.findAll();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} track`;
+  findOne(id: string) {
+    try {
+      return this.tracks.findOne(id);
+    } catch {
+      throw new NotFoundException();
+    }
   }
 
-  update(id: number, updateTrackDto: UpdateTrackDto) {
-    return `This action updates a #${id} track`;
+  update(id: string, newTrack: UpdateTrackDto) {
+    try {
+      return this.tracks.update(id, newTrack);
+    } catch (err) {
+      if (err instanceof NotFoundError) {
+        throw new NotFoundException();
+      }
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} track`;
+  remove(id: string) {
+    try {
+      this.tracks.remove(id);
+    } catch (err) {
+      if (err instanceof NotFoundError) {
+        throw new NotFoundException();
+      }
+    }
   }
 }

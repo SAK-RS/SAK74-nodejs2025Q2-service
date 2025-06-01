@@ -5,3 +5,5 @@ export interface Track {
   albumId: string | null; // refers to Album
   duration: number; // integer number
 }
+
+export type TrackWithoutId = Omit<Track, 'id'>;

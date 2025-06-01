@@ -1,26 +1,45 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateAlbumDto } from './dto/create-album.dto';
 import { UpdateAlbumDto } from './dto/update-album.dto';
+import { AlbumDb } from 'src/db/album.entities';
+import { NotFoundError } from 'src/user/helpers/custom.errors';
 
 @Injectable()
 export class AlbumService {
-  create(createAlbumDto: CreateAlbumDto) {
-    return 'This action adds a new album';
+  constructor(private albums: AlbumDb) {}
+  create(albumtDto: CreateAlbumDto) {
+    return this.albums.create(albumtDto);
   }
 
   findAll() {
-    return `This action returns all album`;
+    return this.albums.findAll();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} album`;
+  findOne(id: string) {
+    try {
+      return this.albums.findOne(id);
+    } catch {
+      throw new NotFoundException();
+    }
   }
 
-  update(id: number, updateAlbumDto: UpdateAlbumDto) {
-    return `This action updates a #${id} album`;
+  update(id: string, newAlbum: UpdateAlbumDto) {
+    try {
+      return this.albums.update(id, newAlbum);
+    } catch (err) {
+      if (err instanceof NotFoundError) {
+        throw new NotFoundException();
+      }
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} album`;
+  remove(id: string) {
+    try {
+      this.albums.remove(id);
+    } catch (err) {
+      if (err instanceof NotFoundError) {
+        throw new NotFoundException();
+      }
+    }
   }
 }

@@ -1,4 +1,21 @@
-import { PartialType } from '@nestjs/swagger';
-import { CreateAlbumDto } from './create-album.dto';
+import type { AlbumWithoutId } from '../schemas';
+import {
+  IsDefined,
+  IsNumber,
+  IsOptional,
+  IsString,
+  IsUUID,
+} from 'class-validator';
 
-export class UpdateAlbumDto extends PartialType(CreateAlbumDto) {}
+export class UpdateAlbumDto implements AlbumWithoutId {
+  @IsDefined()
+  @IsString()
+  name: string;
+  @IsDefined()
+  @IsNumber()
+  year: number;
+  @IsOptional()
+  @IsString()
+  @IsUUID()
+  artistId: string;
+}

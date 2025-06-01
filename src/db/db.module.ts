@@ -1,13 +1,13 @@
 import { Global, Module } from '@nestjs/common';
 import { UserDb } from './user.entities';
 import { ArtistDb } from './artist.entities';
-import { Album } from './album.entities';
-import { Track } from './track.entities';
-import { Favorites } from './favorites.entities';
+import { AlbumDb } from './album.entities';
+import { TrackDb } from './track.entities';
+import { FavoritesDb } from './favorites.entities';
 
 @Global()
 @Module({
-  providers: [UserDb, ArtistDb, Album, Track, Favorites],
-  exports: [UserDb, ArtistDb, Album, Track, Favorites],
+  providers: [UserDb, ArtistDb, AlbumDb, TrackDb, FavoritesDb],
+  exports: [UserDb, ArtistDb, AlbumDb, TrackDb, FavoritesDb],
 })
 export class DbModule {}
