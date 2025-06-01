@@ -10,8 +10,6 @@ import {
   HttpCode,
 } from '@nestjs/common';
 import { FavsService } from './favs.service';
-import { CreateFavDto } from './dto/create-fav.dto';
-import { UpdateFavDto } from './dto/update-fav.dto';
 import { MemberType } from './schemas';
 import { StatusCodes } from 'http-status-codes';
 import { FavTypeValidationPipe } from './pipes/favTypeValidation.pipe';
@@ -34,6 +32,7 @@ export class FavsController {
   }
 
   @Delete(':member/:id')
+  @HttpCode(StatusCodes.NO_CONTENT)
   remove(
     @Param('member', FavTypeValidationPipe) member: MemberType,
     @Param('id', ParseUUIDPipe) id: string,

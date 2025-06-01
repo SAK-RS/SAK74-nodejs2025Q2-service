@@ -20,20 +20,20 @@ export class TrackDb {
   }
 
   findOne(id: string) {
-    const album = this.tracks.get(id);
-    if (!album) {
+    const track = this.tracks.get(id);
+    if (!track) {
       throw new NotFoundError();
     }
-    return { ...album, id };
+    return { ...track, id };
   }
 
-  update(id: Track['id'], newArtist: UpdateTrackDto): Track {
+  update(id: Track['id'], newTrack: UpdateTrackDto): Track {
     if (!this.tracks.has(id)) {
       throw new NotFoundError();
     }
 
-    this.tracks.set(id, newArtist);
-    return { ...newArtist, id };
+    this.tracks.set(id, newTrack);
+    return { ...newTrack, id };
   }
 
   remove(id: Track['id']) {

@@ -1,6 +1,4 @@
-import { Injectable } from '@nestjs/common';
-import { CreateFavDto } from './dto/create-fav.dto';
-import { UpdateFavDto } from './dto/update-fav.dto';
+import { Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { FavoritesDb } from 'src/db/favorites.entities';
 import { FavoriteResponse, MemberType } from './schemas';
 import { ArtistDb } from 'src/db/artist.entities';
@@ -16,7 +14,23 @@ export class FavsService {
     private tracks: TrackDb,
   ) {}
   addToFav(member: MemberType, id: string) {
+    if (!this.isEntityExist(member, id)) {
+      throw new UnprocessableEntityException();
+    }
     this.favs.addTo(member, id);
+  }
+
+  private isEntityExist(member: MemberType, id: string) {
+    switch (member) {
+      case 'artist':
+        return this.artists.findAll().some((artist) => artist.id === id);
+      case 'album':
+        return this.albums.findAll().some((album) => album.id === id);
+      case 'track':
+        return this.tracks.findAll().some((track) => track.id === id);
+      default:
+        throw Error('Unknown error');
+    }
   }
 
   removeFromFav(member: MemberType, id: string) {

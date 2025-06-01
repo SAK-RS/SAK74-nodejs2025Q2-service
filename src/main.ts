@@ -1,12 +1,18 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { styleText } from 'node:util';
-import { SwaggerModule } from '@nestjs/swagger';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { resolve } from 'node:path';
 import { parse } from 'yaml';
 import { readFileSync } from 'node:fs';
 import { ConfigService } from '@nestjs/config';
 import { ValidationPipe } from '@nestjs/common';
+
+const swaggerConfig = new DocumentBuilder()
+  .setTitle('Home Library Service')
+  .setDescription('Home music library service')
+  .setVersion('1.0.0')
+  .build();
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -18,6 +24,7 @@ async function bootstrap() {
       const yamlFile = readFileSync(path, { encoding: 'utf-8' });
       return parse(yamlFile);
     },
+    // () => SwaggerModule.createDocument(app, swaggerConfig),
     {},
   );
   app.useGlobalPipes(new ValidationPipe());

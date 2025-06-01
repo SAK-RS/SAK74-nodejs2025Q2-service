@@ -3,10 +3,14 @@ import { CreateTrackDto } from './dto/create-track.dto';
 import { UpdateTrackDto } from './dto/update-track.dto';
 import { TrackDb } from 'src/db/track.entities';
 import { NotFoundError } from 'src/user/helpers/custom.errors';
+import { FavoritesDb } from 'src/db/favorites.entities';
 
 @Injectable()
 export class TrackService {
-  constructor(private tracks: TrackDb) {}
+  constructor(
+    private tracks: TrackDb,
+    private favorites: FavoritesDb,
+  ) {}
   create(createTrackDto: CreateTrackDto) {
     return this.tracks.create(createTrackDto);
   }
@@ -36,6 +40,11 @@ export class TrackService {
   remove(id: string) {
     try {
       this.tracks.remove(id);
+      this.favorites.tracks.forEach((trackId) => {
+        if (trackId === id) {
+          this.favorites.removeFrom('track', id);
+        }
+      });
     } catch (err) {
       if (err instanceof NotFoundError) {
         throw new NotFoundException();

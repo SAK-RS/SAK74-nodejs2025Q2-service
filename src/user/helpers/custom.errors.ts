@@ -3,5 +3,5 @@ export class WrongPasswordError extends Error {
 }
 
 export class NotFoundError extends Error {
-  message = 'User not found';
+  message = 'Source not found';
 }
